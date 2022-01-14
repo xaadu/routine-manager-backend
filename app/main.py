@@ -3,7 +3,7 @@ load_dotenv()
 
 import uvicorn
 
-from src.vars import (
+from vars import (
     APP_HOST,
     APP_PORT,
     DEBUG

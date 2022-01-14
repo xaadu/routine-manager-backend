@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+from .db.userdbmanager import UserDatabaseManager
 
 app = FastAPI()
 
 APP_VERSION = '1'
 
-ROOT_PATH = f'/routinemang/v{APP_VERSION}'
+ROOT_PATH = f'/routineman/v{APP_VERSION}'
 
 app = FastAPI(
     title="Routine Manager API",
@@ -22,7 +25,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+db = UserDatabaseManager()
 
-@app.get("/", tags=["Home"])
+@app.get("/", response_description="Title with Payload", tags=["Home"])
 async def home():
-    return {"message": "Routine Manager"}
+    user_count = await db.num_of_user
+    return JSONResponse({"message": "Routine Manager", "payload": {"user_count": user_count}})
