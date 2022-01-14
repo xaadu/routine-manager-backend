@@ -1,7 +1,7 @@
-# routine-management
+# Routine Manager
 Simple Routine Management API
 
-## RUN
+## RUN (Local Development Server)
 Configure with .env file - Create a .env file in app folder
 ```sh
 DEBUG=
