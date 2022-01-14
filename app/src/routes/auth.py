@@ -44,7 +44,6 @@ async def login(user_details: UserLoginModel):
 
 @router.post('/upload', response_description="Upload Status", dependencies=[Depends(auth_handler.auth_wrapper)])
 async def upload(file: UploadFile = File(...), effective_on: date = Form(...)):
-    print(effective_on)
     with open('routine.doc', 'wb') as f:
         shutil.copyfileobj(file.file, f)
     data = {
