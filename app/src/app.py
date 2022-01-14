@@ -4,6 +4,8 @@ from fastapi.responses import JSONResponse
 
 from .db.userdbmanager import UserDatabaseManager
 
+from .routes import auth
+
 app = FastAPI()
 
 APP_VERSION = '1'
@@ -31,3 +33,6 @@ db = UserDatabaseManager()
 async def home():
     user_count = await db.num_of_user
     return JSONResponse({"message": "Routine Manager", "payload": {"user_count": user_count}})
+
+
+app.include_router(auth.router)

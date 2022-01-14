@@ -11,3 +11,6 @@ MONGODB_PASS = urllib.parse.quote(os.environ.get('MONGODB_PASS'))
 MONGODB_URL = os.environ.get('MONGODB_URL')
 MONGODB_DB = os.environ.get('MONGODB_DB')
 MONGODB_CONNECTION_STRING = f'mongodb+srv://{MONGODB_USER}:{MONGODB_PASS}@{MONGODB_URL}/{MONGODB_DB}?retryWrites=true&w=majority'
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+ALGORITHM = os.environ.get('ALGORITHM')
