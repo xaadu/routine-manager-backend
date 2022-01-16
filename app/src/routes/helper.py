@@ -32,6 +32,8 @@ def generate(table: Table, data: list, times: list, lecturers: dict):
             cells = [cell.text.strip() for cell in row.cells]
             day, sem, sec, subjects = cells[0].lower(), cells[1][:1], cells[2], cells[3:]
             sec = sec.split(',')
+            if len(sec)!=2:
+                continue
             sec, room = sec[0].strip()[8:], sec[1].strip()[2:]
 
             for sub in subjects:
