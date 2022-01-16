@@ -65,3 +65,18 @@ class UserLoginModel(BaseModel):
                 "password": "secretpassword",
             }
         }
+
+
+class LecturerModel(BaseModel):
+    name: str = Field(...)
+    code: str = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        schema_extra = {
+            "example": {
+                "name": "Md. Moklesur Rahman",
+                "code": "MMR",
+            }
+        }

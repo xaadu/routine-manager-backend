@@ -36,3 +36,4 @@ async def home():
 
 
 app.include_router(auth.router)
+app.include_router(lecturer.router)
