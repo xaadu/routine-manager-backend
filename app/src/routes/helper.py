@@ -74,31 +74,11 @@ def generate(table: Table, data: list, times: list, lecturers: dict):
     return data, times
 
 
-def extract_lecturers(table: Table, lecturers: dict) -> dict:
-    for row in table.rows:
-        for cell in row.cells:
-            text = cell.text.replace('–', '-').split('-')
-            if len(text) == 2:
-                lecturers.update({text[0].strip(): text[1].strip()})
-
-    return lecturers
-
-
-def get_routine_data(filename: str) -> dict:
-    data, times, lecturers = list(), list(), dict()
+def get_routine_data(filename: str, lecturers: dict) -> dict:
+    data, times = list(), list()
 
     document = Document(filename)
     tables = document.tables
-
-    for table in tables:
-        if len(table.columns)==3 or len(table.columns)==4:
-            for row in table.rows:
-                for cell in row.cells:
-                    text = cell.text.replace('–', '-').split('-')
-                    if len(text)==2 and len(text[1].split(' '))>1:
-                        lecturers = extract_lecturers(table, lecturers)
-                    break
-                break
 
     for table in tables:
         if len(table.columns)==9:

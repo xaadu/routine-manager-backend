@@ -47,7 +47,9 @@ async def upload(file: UploadFile = File(...), effective_on: date = Form(...)):
     with open('routine.doc', 'wb') as f:
         shutil.copyfileobj(file.file, f)
     data = {
-        'routine': get_routine_data('routine.doc'),
+        # TODO: Fetch lecturers from db and send through 
+        # get_routine_data function
+        'routine': get_routine_data('routine.doc', {}),
         'effective_on': datetime(effective_on.year, effective_on.month, effective_on.day)
     }
     os.remove('routine.doc')
