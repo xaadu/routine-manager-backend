@@ -4,7 +4,11 @@ from fastapi.responses import JSONResponse
 
 from .db.userdbmanager import UserDatabaseManager
 
-from .routes import auth
+from .routes import (
+    auth,
+    lecturer,
+)
+
 
 app = FastAPI()
 
