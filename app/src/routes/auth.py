@@ -46,19 +46,30 @@ async def login(user_details: UserLoginModel):
 async def upload(file: UploadFile = File(...), effective_on: date = Form(...)):
     with open('routine.doc', 'wb') as f:
         shutil.copyfileobj(file.file, f)
-    data = {
-        # TODO: Fetch lecturers from db and send through 
-        # get_routine_data function
-        'routine': get_routine_data('routine.doc', {}),
-        'effective_on': datetime(effective_on.year, effective_on.month, effective_on.day)
-    }
+
+    routine_data, success = get_routine_data('routine.doc', {})
+
+    if success:
+        data = {
+            # TODO: Fetch lecturers from db and send through get_routine_data function
+            'routine': routine_data,
+            'effective_on': datetime(effective_on.year, effective_on.month, effective_on.day)
+        }
+
+        if await routine_dm.add_routine(data.copy()):
+            data.update({'status': 'success'})
+            status_code = status.HTTP_201_CREATED
+        else:
+            data.update({'status': 'failed'})
+            status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+
+        data.update({'effective_on': effective_on.strftime("%Y-%m-%d")})
+    else:
+        data = {
+            'status': 'failed',
+        }
+        status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+
     os.remove('routine.doc')
 
-    if await routine_dm.add_routine(data.copy()):
-        data.update({'status': 'success'})
-    else:
-        data.update({'status': 'failed'})
-
-    data.update({'effective_on': effective_on.strftime("%Y-%m-%d")})
-
-    return JSONResponse(status_code=status.HTTP_201_CREATED, content=data)
+    return JSONResponse(status_code=status_code, content=data)

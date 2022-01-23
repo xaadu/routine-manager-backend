@@ -1,3 +1,5 @@
+import os
+import subprocess
 from typing import List
 from docx import Document
 from docx.table import Table
@@ -77,11 +79,23 @@ def generate(table: Table, data: list, times: list, lecturers: dict):
 def get_routine_data(filename: str, lecturers: dict) -> dict:
     data, times = list(), list()
 
-    document = Document(filename)
+    try:
+        document = Document(filename)
+    except:
+        subprocess.run(["soffice", "--headless", "--convert-to", "docx", filename])
+        filename += 'x'
+        try:
+            document = Document(filename)
+        except:
+            return {}, False
+
     tables = document.tables
 
     for table in tables:
         if len(table.columns)==9:
             data, times = generate(table, data, times, lecturers)
 
-    return data
+    if filename.endswith('x'):
+        os.remove(filename)
+
+    return data, True
