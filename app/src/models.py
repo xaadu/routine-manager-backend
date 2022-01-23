@@ -80,3 +80,20 @@ class LecturerModel(BaseModel):
                 "code": "MMR",
             }
         }
+
+
+class CourseModel(BaseModel):
+    course_title: str = Field(...)
+    course_code: str = Field(...)
+    semester: int = Field(...)
+    syllabus_version: int = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
+                "course_title": "Peripheral and Interfacing",
+                "course_code": "CSE-530201",
+                "syllabus_version": 2
+            }
+        }

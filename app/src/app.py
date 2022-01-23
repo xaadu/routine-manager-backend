@@ -6,6 +6,7 @@ from .db.userdbmanager import UserDatabaseManager
 
 from .routes import (
     auth,
+    course,
     lecturer,
 )
 
@@ -40,4 +41,5 @@ async def home():
 
 
 app.include_router(auth.router)
+app.include_router(course.router)
 app.include_router(lecturer.router)
